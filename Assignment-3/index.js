@@ -5,15 +5,14 @@ http
     if (error) {
       console.log("Error");
     }
-    let outputColors = randomizedColorCodes.generateRandomColors();
-    outputColors.forEach((colorObject) => {
-      response.write(
-        `<h1 style='color:${colorObject.code.hex};background-color:#000;text-align:center'>` +
-          JSON.stringify(colorObject) +
-          "</h1>"
-      );
-    });
 
+    let responseObject = randomizedColorCodes.generateRandomColors();
+    if (responseObject.status == 1) {
+      responseObject.response = JSON.stringify(responseObject.outputArray);
+    }
+
+    /* Writing the response to the client. */
+    response.write(responseObject.response);
     response.end();
   })
-  .listen(4000);
+  .listen(4001);
