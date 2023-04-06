@@ -35,7 +35,6 @@ app.use("/", (request, response) => {
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */
 app.listen(PORT, () => {
-  console.log(`Server started at port: ${PORT}`);
   const employeeBuddies = [];
   writeJSON(employeeBuddies);
 });

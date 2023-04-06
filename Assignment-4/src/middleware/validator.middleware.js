@@ -14,9 +14,7 @@ const payloadSchema = Joi.object().keys({
 });
 
 /* JOI Schema for the Update Buddy incoming payload */
-const updateschema = Joi.object().keys({
-  employeeId: Joi.number().integer(),
-
+const updateSchema = Joi.object().keys({
   realName: Joi.string().min(3).max(30).required(),
 
   nickName: Joi.string().min(3).max(30).required(),
@@ -41,4 +39,4 @@ const validator = (schema) => {
     }
   };
 };
-module.exports = { payloadSchema, updateschema, validator };
+module.exports = { payloadSchema, updateSchema, validator };

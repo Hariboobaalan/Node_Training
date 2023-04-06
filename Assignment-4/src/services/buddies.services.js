@@ -36,59 +36,6 @@ const createBuddyService = (employeeData) => {
 };
 
 /**
- * It deletes a buddy from the database
- * @param employeeId - The id of the employee to be deleted.
- * @returns  A object of the response information.
- */
-const deleteBuddyService = (employeeId) => {
-  let responseObject = setResponse();
-  try {
-    let employeeBuddies = readJSON();
-    if (employeeBuddies instanceof Error) {
-      throw employeeBuddies;
-    }
-    let specificBuddyIndex = employeeBuddies.findIndex(
-      (buddy) => buddy.employeeId == employeeId
-    );
-    if (specificBuddyIndex == -1) {
-      responseObject = setResponse(404, "Employee does not Exist");
-    } else {
-      employeeBuddies.splice(specificBuddyIndex, 1);
-      writeJSON(employeeBuddies);
-      responseObject = setResponse(
-        200,
-        "Successfully Deleted Buddy Data from Database"
-      );
-    }
-  } catch (error) {
-    responseObject = setResponse(500, error.toString());
-  }
-  return responseObject;
-};
-
-/**
- * It reads the database file and parses all employees Data , and returns the object as a string
- * @returns  A object of the employees DB .
- */
-const listAllBuddiesService = () => {
-  let responseObject = setResponse();
-  try {
-    let employeeBuddies = readJSON();
-    if (employeeBuddies instanceof Error) {
-      throw employeeBuddies;
-    }
-    responseObject = setResponse(
-      200,
-      "Successfully Retrieved All Buddies List",
-      employeeBuddies
-    );
-  } catch (error) {
-    responseObject = setResponse(500, error.toString());
-  }
-  return responseObject;
-};
-
-/**
  * It takes an employee key (employeeId or realName) and returns the employee's details
  * @param employeeKey - This is the key that is used to search for the employee. It can be either the
  * employeeId or the realName.
@@ -121,6 +68,28 @@ const listBuddyService = (employeeKey) => {
 };
 
 /**
+ * It reads the database file and parses all employees Data , and returns the object as a string
+ * @returns  A object of the employees DB .
+ */
+const listAllBuddiesService = () => {
+  let responseObject = setResponse();
+  try {
+    let employeeBuddies = readJSON();
+    if (employeeBuddies instanceof Error) {
+      throw employeeBuddies;
+    }
+    responseObject = setResponse(
+      200,
+      "Successfully Retrieved All Buddies List",
+      employeeBuddies
+    );
+  } catch (error) {
+    responseObject = setResponse(500, error.toString());
+  }
+  return responseObject;
+};
+
+/**
  * It takes in an employeeId and newData as parameters, and updates the buddy with the employeeId with
  * the newData
  * @param employeeId - The employeeId of the buddy you want to update.
@@ -146,6 +115,37 @@ const updateBuddyService = (employeeId, newData) => {
       }
       writeJSON(employeeBuddies);
       responseObject = setResponse(200, "Successfully Updated Buddy Data");
+    }
+  } catch (error) {
+    responseObject = setResponse(500, error.toString());
+  }
+  return responseObject;
+};
+
+/**
+ * It deletes a buddy from the database
+ * @param employeeId - The id of the employee to be deleted.
+ * @returns  A object of the response information.
+ */
+const deleteBuddyService = (employeeId) => {
+  let responseObject = setResponse();
+  try {
+    let employeeBuddies = readJSON();
+    if (employeeBuddies instanceof Error) {
+      throw employeeBuddies;
+    }
+    let specificBuddyIndex = employeeBuddies.findIndex(
+      (buddy) => buddy.employeeId == employeeId
+    );
+    if (specificBuddyIndex == -1) {
+      responseObject = setResponse(404, "Employee does not Exist");
+    } else {
+      employeeBuddies.splice(specificBuddyIndex, 1);
+      writeJSON(employeeBuddies);
+      responseObject = setResponse(
+        200,
+        "Successfully Deleted Buddy Data from Database"
+      );
     }
   } catch (error) {
     responseObject = setResponse(500, error.toString());
