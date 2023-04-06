@@ -12,7 +12,7 @@
  * @returns The function `setResponse` is returning an object with three properties: `code`, `message`,
  * and `data`. The values of these properties are determined by the arguments passed to the function.
  */
-const setResponse = (code = 200, message = "OK", data = "") => {
+const setResponse = (code = 200, message = "OK", data = null) => {
   let responseObject = {
     code: code,
     message: message,

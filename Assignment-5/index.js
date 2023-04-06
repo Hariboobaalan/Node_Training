@@ -7,12 +7,12 @@ const app = express();
 /* Declaring a constant port. */
 require("dotenv").config();
 const PORT = process.env.PORT;
-
 /* Importing writeJSON function to write the data to the database */
 const { writeJSON } = require("./src/utilities/io.util");
 
 const buddiesRoute = require("./src/routes/buddies.routes");
 
+/* Importing the infoLogger to log information */
 const { infoLogger } = require("./src/utilities/logger.util");
 
 /* This is a middleware that allows cross-origin requests to only http://localhost:4000 address. */
