@@ -1,6 +1,6 @@
 const buddyServices = require("../services/buddies.services");
-const { debugLogger } = require("../utilities/logger");
-const createLog = require("../utilities/createLog");
+const { debugLogger } = require("../utilities/logger.util");
+const createLog = require("../utilities/createlog.util");
 /**
  * CreateBuddy is a function that takes in a request and a response, and sends the request to a function in the buddyServices file with the request body as the argument.
  * @param request - This is the request object that contains the data sent from the client.

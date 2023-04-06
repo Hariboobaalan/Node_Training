@@ -9,9 +9,11 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 
 /* Importing writeJSON function to write the data to the database */
-const { writeJSON } = require("./src/utilities/IO");
+const { writeJSON } = require("./src/utilities/io.util");
 
 const buddiesRoute = require("./src/routes/buddies.routes");
+
+const { infoLogger } = require("./src/utilities/logger.util");
 
 /* This is a middleware that allows cross-origin requests to only http://localhost:4000 address. */
 app.use(
@@ -35,7 +37,7 @@ app.use("/", (request, response) => {
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */
 app.listen(PORT, () => {
-  console.log(`Server started at port: ${PORT}`);
+  infoLogger.info(`Server started at port: ${PORT}`);
   const employeeBuddies = [];
   writeJSON(employeeBuddies);
 });

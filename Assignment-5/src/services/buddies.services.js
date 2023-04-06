@@ -1,6 +1,6 @@
 /* Importing the required utility functions */
-const { writeJSON, readJSON } = require("../utilities/IO");
-const setResponse = require("../utilities/setResponse").setResponse;
+const { writeJSON, readJSON } = require("../utilities/io.util");
+const setResponse = require("../utilities/response.util").setResponse;
 
 /**
  * It takes in an employee object, checks if the employee already exists in the database, and if not,
@@ -20,11 +20,14 @@ const createBuddyService = (employeeData) => {
       (buddy) => buddy.employeeId == employeeData.employeeId
     );
     if (alreadyExists != -1) {
-      responseObject = setResponse(403, "Employee Already Exists");
+      responseObject = setResponse(400, "Employee Already Exists");
     } else {
       employeeBuddies.push(employeeData);
       writeJSON(employeeBuddies);
-      responseObject = setResponse(201, "Buddy Added");
+      responseObject = setResponse(
+        200,
+        "Successfully added Buddy data to Database"
+      );
     }
   } catch (error) {
     if (responseObject.code == 200)
@@ -54,8 +57,8 @@ const listBuddyService = (employeeKey) => {
       responseObject = setResponse(404, "Employee does not Exist");
     } else {
       responseObject = setResponse(
-        302,
-        "Found Buddy",
+        200,
+        "Successfully Found Buddy",
         employeeBuddies[specificBuddyIndex]
       );
     }
@@ -77,8 +80,8 @@ const listAllBuddiesService = () => {
       throw employeeBuddies;
     }
     responseObject = setResponse(
-      202,
-      "Retrieved All Buddies List",
+      200,
+      "Successfully Retrieved All Buddies List",
       employeeBuddies
     );
   } catch (error) {
@@ -112,7 +115,7 @@ const updateBuddyService = (employeeId, newData) => {
         employeeBuddies[buddyIndex][key] = newData[key];
       }
       writeJSON(employeeBuddies);
-      responseObject = setResponse(202, "Buddy Data Updated");
+      responseObject = setResponse(200, "Successfully Updated Buddy Data");
     }
   } catch (error) {
     responseObject = setResponse(500, error.toString());
@@ -140,7 +143,10 @@ const deleteBuddyService = (employeeId) => {
     } else {
       employeeBuddies.splice(specificBuddyIndex, 1);
       writeJSON(employeeBuddies);
-      responseObject = setResponse(202, "Buddy deleted");
+      responseObject = setResponse(
+        200,
+        "Successfully Deleted Buddy Data from Database"
+      );
     }
   } catch (error) {
     responseObject = setResponse(500, error.toString());
