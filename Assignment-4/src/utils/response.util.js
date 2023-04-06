@@ -14,7 +14,7 @@
  * If no arguments are passed, the default values are `200` for `code`, `"OK"` for `message`, and an
  * empty string for `data`.
  */
-const setResponse = (code = 200, message = "OK", data = "") => {
+const setResponse = (code = 200, message = "OK", data = null) => {
   let responseObject = {
     code: code,
     message: message,

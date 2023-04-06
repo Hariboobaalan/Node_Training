@@ -9,7 +9,7 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 
 /* Importing writeJSON function to write the data to the database */
-const { writeJSON } = require("./src/utilities/IO");
+const { writeJSON } = require("./src/utils/io.utility");
 
 const buddiesRoute = require("./src/routes/buddies.routes");
 
