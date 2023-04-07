@@ -1,6 +1,8 @@
 /* Importing Required Modules */
 let express = require("express");
 let router = express.Router();
+const { INVALID_URL } = require("../constants/messages.constants");
+const { BAD_REQUEST } = require("../constants/codes.constants");
 const {
   payloadSchema,
   updateSchema,
@@ -22,9 +24,7 @@ router.get("/", listAllBuddies);
 router.put("/:buddyId", validator(updateSchema), updateBuddy);
 router.delete("/:buddyId", deleteBuddy);
 router.all("/", (request, response) => {
-  response
-    .status(404)
-    .send({ error: `INVALID URL Cannot ${request.method} request` });
+  response.status(BAD_REQUEST).send({ error: INVALID_URL });
 });
 
 module.exports = router;

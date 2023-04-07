@@ -8,12 +8,12 @@ const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
 /* Importing writeJSON function to write the data to the database */
-const { writeJSON } = require("./src/utilities/io.util");
+const { writeJSON } = require("./src/utils/io.util");
 
 const buddiesRoute = require("./src/routes/buddies.routes");
 
 /* Importing the infoLogger to log information */
-const { infoLogger } = require("./src/utilities/logger.util");
+const { infoLogger } = require("./src/utils/logger.util");
 
 /* This is a middleware that allows cross-origin requests to only http://localhost:4000 address. */
 app.use(
@@ -36,7 +36,7 @@ app.all("/", (request, response) => {
 });
 
 app.all(/^\/(.+)/, (request, response) => {
-  response.send(`Invalid URL, Cannot ${request.method} Request`);
+  response.send({ error: `Invalid URL, Cannot ${request.method} Request` });
 });
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */

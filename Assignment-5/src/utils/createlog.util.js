@@ -1,4 +1,4 @@
-/* Importing the loggers from utilities*/
+/* Importing the loggers from utils*/
 const { errorLogger, warningLogger, infoLogger } = require("./logger.util");
 
 /* A function to generate log data based on the status code, as info or warning or error. */

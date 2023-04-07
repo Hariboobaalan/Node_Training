@@ -1,6 +1,7 @@
 const buddyServices = require("../services/buddies.services");
-const { debugLogger } = require("../utilities/logger.util");
-const createLog = require("../utilities/createlog.util");
+const { debugLogger } = require("../utils/logger.util");
+const createLog = require("../utils/createlog.util");
+
 /**
  * CreateBuddy is a function that takes in a request and a response, and sends the request to a function in the buddyServices file with the request body as the argument.
  * @param request - This is the request object that contains the data sent from the client.
@@ -9,7 +10,7 @@ const createLog = require("../utilities/createlog.util");
 function createBuddy(request, response) {
   debugLogger.info(`BEGIN: Service > createBuddy`);
   let { code, message, data } = buddyServices.createBuddyService(request.body);
-  response.status(code).send({ code: code, message: message });
+  response.status(code).send({ message: message });
   createLog({
     code: code,
     message: message,
@@ -32,7 +33,7 @@ function listBuddy(request, response) {
   let { code, message, data } = buddyServices.listBuddyService(
     request.params.buddyId
   );
-  response.status(code).send({ code: code, message: message, data: data });
+  response.status(code).send({ message: message, data: data });
   createLog({
     code: code,
     message: message,
@@ -54,7 +55,7 @@ function listBuddy(request, response) {
 function listAllBuddies(request, response) {
   debugLogger.info(`BEGIN: Service > ListAllBuddies`);
   let { code, message, data } = buddyServices.listAllBuddiesService();
-  response.status(code).send({ code: code, message: message, data: data });
+  response.status(code).send({ message: message, data: data });
   createLog({
     code: code,
     message: message,
@@ -79,7 +80,7 @@ function updateBuddy(request, response) {
     request.params.buddyId,
     request.body
   );
-  response.status(code).send({ code: code, message: message });
+  response.status(code).send({ message: message });
   createLog({
     code: code,
     message: message,
@@ -103,7 +104,7 @@ function deleteBuddy(request, response) {
   let { code, message, data } = buddyServices.deleteBuddyService(
     request.params.buddyId
   );
-  response.status(code).send({ code: code, message: message });
+  response.status(code).send({ message: message });
   createLog({ code: code, message: message, data: data });
   debugLogger.info(`END: Service > deleteBuddy`);
 }
