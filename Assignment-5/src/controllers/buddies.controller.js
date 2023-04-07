@@ -8,10 +8,12 @@ const createLog = require("../utilities/createlog.util");
  */
 function createBuddy(request, response) {
   debugLogger.info(`BEGIN: Service > createBuddy`);
-  let responseObject = buddyServices.createBuddyService(request.body);
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.createBuddyService(request.body);
+  response.status(code).send({ code: code, message: message });
   createLog({
-    ...responseObject,
+    code: code,
+    message: message,
+    data: data,
     requestStatus: response.statusMessage,
     originalUrl: request.originalUrl,
     ip: request.ip,
@@ -27,10 +29,14 @@ function createBuddy(request, response) {
  */
 function listBuddy(request, response) {
   debugLogger.info(`BEGIN: Service > listBuddy`);
-  let responseObject = buddyServices.listBuddyService(request.params.buddyId);
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.listBuddyService(
+    request.params.buddyId
+  );
+  response.status(code).send({ code: code, message: message, data: data });
   createLog({
-    ...responseObject,
+    code: code,
+    message: message,
+    data: data,
     requestStatus: response.statusMessage,
     originalUrl: request.originalUrl,
     ip: request.ip,
@@ -47,10 +53,12 @@ function listBuddy(request, response) {
  */
 function listAllBuddies(request, response) {
   debugLogger.info(`BEGIN: Service > ListAllBuddies`);
-  let responseObject = buddyServices.listAllBuddiesService();
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.listAllBuddiesService();
+  response.status(code).send({ code: code, message: message, data: data });
   createLog({
-    ...responseObject,
+    code: code,
+    message: message,
+    data: data,
     requestStatus: response.statusMessage,
     originalUrl: request.originalUrl,
     ip: request.ip,
@@ -67,13 +75,15 @@ function listAllBuddies(request, response) {
  */
 function updateBuddy(request, response) {
   debugLogger.info(`BEGIN: Service > updateBuddy`);
-  let responseObject = buddyServices.updateBuddyService(
+  let { code, message, data } = buddyServices.updateBuddyService(
     request.params.buddyId,
     request.body
   );
-  response.status(responseObject.code).send(responseObject);
+  response.status(code).send({ code: code, message: message });
   createLog({
-    ...responseObject,
+    code: code,
+    message: message,
+    data: data,
     requestStatus: response.statusMessage,
     originalUrl: request.originalUrl,
     ip: request.ip,
@@ -90,9 +100,11 @@ function updateBuddy(request, response) {
  */
 function deleteBuddy(request, response) {
   debugLogger.info(`BEGIN: Service > deleteBuddy`);
-  let responseObject = buddyServices.deleteBuddyService(request.params.buddyId);
-  response.status(responseObject.code).send(responseObject);
-  createLog(responseObject);
+  let { code, message, data } = buddyServices.deleteBuddyService(
+    request.params.buddyId
+  );
+  response.status(code).send({ code: code, message: message });
+  createLog({ code: code, message: message, data: data });
   debugLogger.info(`END: Service > deleteBuddy`);
 }
 
