@@ -30,8 +30,12 @@ app.use(express.json());
 
 app.use("/tasks", tasksRoute);
 
-app.use("/", (request, response) => {
-  response.send({ message: "This is the base route" });
+app.all("/", (request, response) => {
+  response.send({ message: "This is the home route" });
+});
+
+app.all(/^\/(.+)/, (request, response) => {
+  response.send(`Invalid URL, Cannot ${request.method} Request`);
 });
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */
