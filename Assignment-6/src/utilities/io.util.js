@@ -1,7 +1,7 @@
+require("dotenv").config();
 /* Importing FileSystem module */
 const fs = require("fs");
 
-require("dotenv").config();
 const database = process.env.DATABASE_URL;
 
 /**

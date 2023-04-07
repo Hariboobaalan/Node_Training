@@ -1,3 +1,4 @@
+require("dotenv").config();
 /* Importing the express module. */
 const express = require("express");
 /* A middleware that allows cross-origin requests. */
@@ -5,12 +6,9 @@ const cors = require("cors");
 /* Creating an instance of the express module. */
 const app = express();
 /* Declaring a constant port. */
-require("dotenv").config();
 const PORT = process.env.PORT;
-
 /* Importing writeJSON function to write the data to the database */
 const { writeJSON } = require("./src/utilities/io.util");
-
 /* Importing infoLogger to log information. */
 const { infoLogger } = require("./src/utilities/logger.util");
 
@@ -41,6 +39,7 @@ app.all(/^\/(.+)/, (request, response) => {
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */
 app.listen(PORT, () => {
   infoLogger.info(`Server started at port: ${PORT}`);
+
   const tasklist = [];
   writeJSON(tasklist);
 });
