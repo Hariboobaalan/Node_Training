@@ -5,8 +5,8 @@ const buddyServices = require("../services/buddies.services");
  * @param response - The response object is used to send data back to the client.
  */
 function createBuddy(request, response) {
-  let responseObject = buddyServices.createBuddyService(request.body);
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.createBuddyService(request.body);
+  response.status(code).send({ code: code, message: message });
 }
 
 /**
@@ -16,8 +16,10 @@ function createBuddy(request, response) {
  * @param response - The response object is used to send data back to the client.
  */
 function deleteBuddy(request, response) {
-  let responseObject = buddyServices.deleteBuddyService(request.params.buddyId);
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.deleteBuddyService(
+    request.params.buddyId
+  );
+  response.status(code).send({ code: code, message: message });
 }
 
 /**
@@ -27,8 +29,8 @@ function deleteBuddy(request, response) {
  * @param response - The response object is used to send data back to the client.
  */
 function listAllBuddies(request, response) {
-  let responseObject = buddyServices.listAllBuddiesService();
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.listAllBuddiesService();
+  response.status(code).send({ code: code, message: message, data: data });
 }
 
 /**
@@ -37,8 +39,10 @@ function listAllBuddies(request, response) {
  * @param response - The response object is used to send data back to the client.
  */
 function listBuddy(request, response) {
-  let responseObject = buddyServices.listBuddyService(request.params.buddyId);
-  response.status(responseObject.code).send(responseObject);
+  let { code, message, data } = buddyServices.listBuddyService(
+    request.params.buddyId
+  );
+  response.status(code).send({ code: code, message: message, data: data });
 }
 
 /**
@@ -48,11 +52,11 @@ function listBuddy(request, response) {
  * @param response - The response object is used to send data back to the client.
  */
 function updateBuddy(request, response) {
-  let responseObject = buddyServices.updateBuddyService(
+  let { code, message, data } = buddyServices.updateBuddyService(
     request.params.buddyId,
     request.body
   );
-  response.status(responseObject.code).send(responseObject);
+  response.status(code).send({ code: code, message: message });
 }
 
 module.exports = {
