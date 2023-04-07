@@ -6,17 +6,23 @@ const cors = require("cors");
 const app = express();
 /* Declaring a constant port. */
 require("dotenv").config();
+const HOST = process.env.HOST;
 const PORT = process.env.PORT;
+const BAD_REQUEST = require("./src/constants/codes.constants").BAD_REQUEST;
 
+const {
+  HOME_ROUTE,
+  INVALID_URL,
+} = require("./src/constants/messages.constants");
 /* Importing writeJSON function to write the data to the database */
-const { writeJSON } = require("./src/utils/io.utility");
+const { writeJSON } = require("./src/utils/io.utils");
 
 const buddiesRoute = require("./src/routes/buddies.routes");
 
 /* This is a middleware that allows cross-origin requests to only http://localhost:4000 address. */
 app.use(
   cors({
-    origin: ["http://localhost:4000"],
+    origin: [`${HOST}:${PORT}`],
   })
 );
 
@@ -31,11 +37,11 @@ app.use(express.json());
 app.use("/buddies", buddiesRoute);
 
 app.all("/", (request, response) => {
-  response.send({ message: "This is the home route" });
+  response.send({ message: HOME_ROUTE });
 });
 
 app.all(/^\/(.+)/, (request, response) => {
-  response.send(`Invalid URL, Cannot ${request.method} Request`);
+  response.status(BAD_REQUEST).send({ error: INVALID_URL });
 });
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */

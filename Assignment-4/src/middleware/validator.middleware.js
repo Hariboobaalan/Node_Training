@@ -1,5 +1,8 @@
 /* Importing the required modules */
 const Joi = require("joi");
+const INVALID_PAYLOAD =
+  require("../constants/messages.constants").INVALID_PAYLOAD;
+const BAD_REQUEST = require("../constants/codes.constants").BAD_REQUEST;
 /* JOI Schema for the incoming payload */
 const payloadSchema = Joi.object().keys({
   employeeId: Joi.number().integer().required(),
@@ -35,7 +38,7 @@ const validator = (schema) => {
     } else {
       const { details } = error;
       const message = details.map((i) => i.message.replaceAll('"', "`"));
-      res.status(400).json({ error: `INVALID PAYLOAD STRUCTURE ${message}` });
+      res.status(BAD_REQUEST).json({ error: `${INVALID_PAYLOAD} ${message}` });
     }
   };
 };

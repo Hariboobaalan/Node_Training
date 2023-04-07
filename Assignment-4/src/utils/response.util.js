@@ -1,3 +1,4 @@
+const OK = require("../constants/codes.constants").OK;
 /**
  * The function sets a response object with a given code, message, and data, and returns it.
  * @param [code=200] - The HTTP status code to be returned in the response. The default value is 200,
@@ -14,7 +15,7 @@
  * If no arguments are passed, the default values are `200` for `code`, `"OK"` for `message`, and an
  * empty string for `data`.
  */
-const setResponse = (code = 200, message = "OK", data = null) => {
+const setResponse = (code = OK, message = "OK", data = null) => {
   let responseObject = {
     code: code,
     message: message,

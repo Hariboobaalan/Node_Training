@@ -1,9 +1,12 @@
 /* Importing FileSystem module */
 const fs = require("fs");
-
+const {
+  WRITE_ERROR,
+  INVALID_FORMAT,
+  CURROPTED_FILE,
+} = require("../constants/messages.constants");
 require("dotenv").config();
 const database = process.env.DATABASE_URL;
-
 /**
  * The function writes JSON data to a file and returns an error if the data is invalid or if it is
  * unable to write to the file.
@@ -20,10 +23,10 @@ const writeJSON = (data) => {
     try {
       fs.writeFileSync(database, content);
     } catch (error) {
-      return new Error("Unable to write to DB");
+      return new Error(WRITE_ERROR);
     }
   } catch (error) {
-    return new Error("Invalid data format");
+    return new Error(INVALID_FORMAT);
   }
 };
 /**
@@ -37,7 +40,7 @@ const readJSON = () => {
   try {
     return JSON.parse(fs.readFileSync(database, "utf-8"));
   } catch (e) {
-    return new Error("Curropted File");
+    return new Error(CURROPTED_FILE);
   }
 };
 

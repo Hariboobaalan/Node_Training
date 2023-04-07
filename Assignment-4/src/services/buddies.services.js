@@ -1,5 +1,7 @@
-const { writeJSON, readJSON } = require("../utils/io.utility");
+const { writeJSON, readJSON } = require("../utils/io.utils");
 const setResponse = require("../utils/response.util").setResponse;
+const message = require("../constants/messages.constants");
+const code = require("../constants/codes.constants");
 
 /**
  * It takes in an employee object, checks if the employee already exists in the database, and if not,
@@ -19,18 +21,18 @@ const createBuddyService = (employeeData) => {
       (buddy) => buddy.employeeId == employeeData.employeeId
     );
     if (alreadyExists != -1) {
-      responseObject = setResponse(400, "Employee Already Exists");
+      responseObject = setResponse(code.BAD_REQUEST, message.ALREADY_EXIST);
     } else {
       employeeBuddies.push(employeeData);
       writeJSON(employeeBuddies);
-      responseObject = setResponse(
-        200,
-        "Successfully added Buddy data to Database"
-      );
+      responseObject = setResponse(code.OK, message.ADD_SUCCESS);
     }
   } catch (error) {
-    if (responseObject.code == 200)
-      responseObject = setResponse(500, error.toString());
+    if (responseObject.code == code.OK)
+      responseObject = setResponse(
+        code.INTERNAL_SERVER_ERROR,
+        error.toString()
+      );
   }
   return responseObject;
 };
@@ -53,16 +55,16 @@ const listBuddyService = (employeeKey) => {
         buddy.employeeId == employeeKey || buddy.realName == employeeKey
     );
     if (specificBuddyIndex == -1) {
-      responseObject = setResponse(404, "Employee does not Exist");
+      responseObject = setResponse(code.NOT_FOUND, message.NOT_FOUND);
     } else {
       responseObject = setResponse(
-        200,
-        "Successfully Found Buddy",
+        code.OK,
+        message.FOUND,
         employeeBuddies[specificBuddyIndex]
       );
     }
   } catch (error) {
-    responseObject = setResponse(500, error.toString());
+    responseObject = setResponse(code.INTERNAL_SERVER_ERROR, error.toString());
   }
   return responseObject;
 };
@@ -79,12 +81,12 @@ const listAllBuddiesService = () => {
       throw employeeBuddies;
     }
     responseObject = setResponse(
-      200,
-      "Successfully Retrieved All Buddies List",
+      code.OK,
+      message.RETRIEVED_ALL,
       employeeBuddies
     );
   } catch (error) {
-    responseObject = setResponse(500, error.toString());
+    responseObject = setResponse(code.INTERNAL_SERVER_ERROR, error.toString());
   }
   return responseObject;
 };
@@ -107,17 +109,17 @@ const updateBuddyService = (employeeId, newData) => {
       (buddy) => buddy.employeeId == employeeId
     );
     if (buddyIndex == -1) {
-      responseObject = setResponse(404, "Employee does not Exist");
+      responseObject = setResponse(code.NOT_FOUND, message.NOT_FOUND);
     } else {
       let modifiableParameters = ["nickName", "hobbies"];
       for (let key of modifiableParameters) {
         employeeBuddies[buddyIndex][key] = newData[key];
       }
       writeJSON(employeeBuddies);
-      responseObject = setResponse(200, "Successfully Updated Buddy Data");
+      responseObject = setResponse(code.OK, message.UPDATE_SUCCESS);
     }
   } catch (error) {
-    responseObject = setResponse(500, error.toString());
+    responseObject = setResponse(code.INTERNAL_SERVER_ERROR, error.toString());
   }
   return responseObject;
 };
@@ -138,17 +140,14 @@ const deleteBuddyService = (employeeId) => {
       (buddy) => buddy.employeeId == employeeId
     );
     if (specificBuddyIndex == -1) {
-      responseObject = setResponse(404, "Employee does not Exist");
+      responseObject = setResponse(code.NOT_FOUND, message.NOT_FOUND);
     } else {
       employeeBuddies.splice(specificBuddyIndex, 1);
       writeJSON(employeeBuddies);
-      responseObject = setResponse(
-        200,
-        "Successfully Deleted Buddy Data from Database"
-      );
+      responseObject = setResponse(code.OK, message.DELETE_SUCCESS);
     }
   } catch (error) {
-    responseObject = setResponse(500, error.toString());
+    responseObject = setResponse(code.INTERNAL_SERVER_ERROR, error.toString());
   }
   return responseObject;
 };
