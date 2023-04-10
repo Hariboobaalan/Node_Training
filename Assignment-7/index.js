@@ -1,3 +1,4 @@
+require("dotenv").config();
 /* Importing the express module. */
 const express = require("express");
 /* A middleware that allows cross-origin requests. */
@@ -7,21 +8,17 @@ const fs = require("fs");
 /* Creating an instance of the express module. */
 const app = express();
 /* Declaring a constant port. */
-require("dotenv").config();
 const PORT = process.env.PORT;
-const {
-  MESSAGES,
-  ERRORS,
-} = require("./src/constants/messages.constants");
+const { MESSAGES, ERRORS } = require("./src/constants/messages.constants");
 const CODES = require("./src/constants/codes.constants");
 /* Importing write function to write the data to the database */
 const { write } = require("./src/utils/io.util");
-
 /* Importing infoLogger to log information. */
 const { infoLogger } = require("./src/utils/logger.util");
 const auth = require("./src/middleware/auth.middleware");
 const tasksRoute = require("./src/routes/tasks.routes");
 const usersRoute = require("./src/routes/users.routes");
+
 /* This is a middleware that allows cross-origin requests to only http://localhost:4000 address. */
 app.use(
   cors({
@@ -60,3 +57,5 @@ app.listen(PORT, () => {
   if (!fs.existsSync(process.env.USERS_DATABASE))
     write(process.env.USERS_DATABASE, users);
 });
+
+module.exports = app;

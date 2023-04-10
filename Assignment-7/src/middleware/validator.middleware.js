@@ -35,18 +35,7 @@ const SCHEMA = {
   }),
 };
 
-/* Validator Function to validate the JOI Schema */
-/**
- * This is a validator function that checks if the request body matches a given schema and returns an
- * error message if it does not.
- * @param schema - The `schema` parameter is a validation schema that defines the structure and
- * constraints of the data that is expected in the request body. It is typically created using a
- * validation library such as Joi or Yup. The `validator` function returns a middleware function that
- * uses this schema to validate the request body and passes
- * @returns A higher-order function that takes in a schema and returns a middleware function that
- * validates the request body against the schema. If the validation is successful, it calls the next
- * middleware function. If the validation fails, it sends a 400 response with an error message.
- */
+/* Validator Function to validate the Incoming Payload Schema */
 const validator = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body);

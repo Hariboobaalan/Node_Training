@@ -1,12 +1,13 @@
 /* Importing Required Modules */
 let express = require("express");
-let router = express.Router();
 const CODES = require("../constants/codes.constants");
 const INVALID_URL = require("../constants/messages.constants").ERRORS
   .INVALID_URL;
 // Importing the required user related controllers from the controller layer
 const { registerUser, loginUser } = require("../controllers/users.controller");
 const { validator, userSchema } = require("../middleware/validator.middleware");
+
+let router = express.Router();
 /* Setting up the routes for the specified services */
 router.post("/register", validator(userSchema), registerUser);
 router.post("/login", validator(userSchema), loginUser);

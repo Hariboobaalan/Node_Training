@@ -1,10 +1,8 @@
 /* Importing Required Modules */
 let express = require("express");
-let router = express.Router();
 const CODES = require("../constants/codes.constants");
 const INVALID_URL = require("../constants/messages.constants").ERRORS
   .INVALID_URL;
-const createLog = require("../utils/createlog.util");
 /* Importing the required Tasks related Controllers from the Controllers layer*/
 const {
   addTask,
@@ -19,6 +17,9 @@ const {
   createTaskSchema,
   updateTaskSchema,
 } = require("../middleware/validator.middleware");
+
+let router = express.Router();
+
 /* Setting up the routes for the specified services */
 router.post("/", validator(createTaskSchema), addTask);
 router.get("/", readAllTasks);

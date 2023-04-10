@@ -5,22 +5,8 @@ const { debugLogger } = require("../utils/logger.util");
 const { MESSAGES, ERRORS } = require("../constants/messages.constants");
 const CODES = require("../constants/codes.constants");
 const createLog = require("../utils/createlog.util");
+
 // Authentication Middleware to authenticate the user to grant permission to perform CRUD operations on the tasks
-/**
- * The function checks for the presence and validity of a JWT token and username in the request
- * headers, and verifies the token before allowing access to the next middleware function.
- * @param request - The request object represents the HTTP request that is being made to the server. It
- * contains information about the request, such as the URL, headers, and any data that is being sent in
- * the request body.
- * @param response - The `response` parameter is an object that represents the HTTP response that will
- * be sent back to the client. It contains methods for setting the status code, headers, and body of
- * the response.
- * @param next - `next` is a function that is called to pass control to the next middleware function in
- * the stack. It is typically used to move on to the next function after the current function has
- * completed its task.
- * @returns The function does not return anything. It either calls the `next()` function to move on to
- * the next middleware function or sends a response using the `response` object.
- */
 function auth(request, response, next) {
   debugLogger.info("BEGIN: User Authentication");
   const jwtToken = request.header("x-auth-token");
