@@ -7,14 +7,14 @@ const cors = require("cors");
 const fs = require("fs");
 /* Creating an instance of the express module. */
 const app = express();
-/* Declaring a constant port. */
+/* Fetching a constant port from enviroment file. */
 const PORT = process.env.PORT;
 const { MESSAGES, ERRORS } = require("./src/constants/messages.constants");
 const CODES = require("./src/constants/codes.constants");
 /* Importing write function to write the data to the database */
 const { write } = require("./src/utils/io.util");
 /* Importing infoLogger to log information. */
-const { infoLogger } = require("./src/utils/logger.util");
+const LOGGER = require("./src/utils/logger.util");
 const auth = require("./src/middleware/auth.middleware");
 const tasksRoute = require("./src/routes/tasks.routes");
 const usersRoute = require("./src/routes/users.routes");
@@ -48,7 +48,7 @@ app.all(/^\/(.+)/, (request, response) => {
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */
 app.listen(PORT, () => {
-  infoLogger.info(`Server started at port: ${PORT}`);
+  LOGGER.info(`Server started at port: ${PORT}`);
   const tasks = {};
   const users = [];
   if (!fs.existsSync(process.env.TASKS_DATABASE))

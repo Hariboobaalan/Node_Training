@@ -1,86 +1,45 @@
 /* Import the required Modules */
 const { createLogger, format, transports } = require("winston");
 
-/* Logger for info logs */
-const infoLogger = createLogger({
-  level: process.env.LOGGER_LEVEL_INFO,
-  transports: [
-    new transports.File({
-      filename: "./logs/info.log",
-      format: format.combine(
-        format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-        format.align(),
-        format.printf(
-          (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-        )
-      ),
-    }),
-    new transports.Console({
-      format: format.combine(
-        format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-        format.align(),
-        format.printf(
-          (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-        )
-      ),
-    }),
-  ],
-});
+// Logger Template for All Levels of Logger.
+// This logger only logs to the file and not to the consoel.
+const loggerTemplate = (logger_level, file_path) =>
+  createLogger({
+    level: logger_level,
+    transports: [
+      new transports.File({
+        filename: file_path,
+        format: format.combine(
+          format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
+          format.align(),
+          format.printf(
+            (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+          )
+        ),
+      }),
+    ],
+  });
+const LOGGER = {
+  info: (data) => {
+    const LOGGER_LEVEL = process.env.LOGGER_LEVEL_INFO;
+    const LOGGER_FILE_PATH = "./logs/info.log";
+    loggerTemplate(LOGGER_LEVEL, LOGGER_FILE_PATH).info(data);
+  },
+  warn: (data) => {
+    const LOGGER_LEVEL = process.env.LOGGER_LEVEL_WARNING;
+    const LOGGER_FILE_PATH = "./logs/warnings.log";
+    loggerTemplate(LOGGER_LEVEL, LOGGER_FILE_PATH).warn(data);
+  },
+  error: (data) => {
+    const LOGGER_LEVEL = process.env.LOGGER_LEVEL_ERROR;
+    const LOGGER_FILE_PATH = "./logs/errors.log";
+    loggerTemplate(LOGGER_LEVEL, LOGGER_FILE_PATH).error(data);
+  },
+  debug: (data) => {
+    const LOGGER_LEVEL = process.env.LOGGER_LEVEL_DEBUG;
+    const LOGGER_FILE_PATH = "./logs/debug.log";
+    loggerTemplate(LOGGER_LEVEL, LOGGER_FILE_PATH).debug(data);
+  },
+};
 
-/* Logger for error logs */
-const errorLogger = createLogger({
-  level: process.env.LOGGER_LEVEL_ERROR,
-  transports: [
-    new transports.Console({
-      format: format.combine(
-        format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-        format.align(),
-        format.printf(
-          (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-        )
-      ),
-    }),
-    new transports.File({
-      filename: "./logs/errors.log",
-      format: format.combine(
-        format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-        format.align(),
-        format.printf(
-          (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-        )
-      ),
-    }),
-  ],
-});
-
-/* Logger for warning logs */
-const warningLogger = createLogger({
-  level: process.env.LOGGER_LEVEL_WARNING,
-  transports: new transports.File({
-    filename: "./logs/warnings.log",
-    format: format.combine(
-      format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-      format.align(),
-      format.printf(
-        (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-      )
-    ),
-  }),
-});
-
-/* Logger for debugging logs */
-const debugLogger = createLogger({
-  level: process.env.LOGGER_LEVEL_DEBUG,
-  transports: new transports.File({
-    filename: "./logs/debug.log",
-    format: format.combine(
-      format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-      format.align(),
-      format.printf(
-        (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-      )
-    ),
-  }),
-});
-
-module.exports = { errorLogger, warningLogger, infoLogger, debugLogger };
+module.exports = LOGGER;

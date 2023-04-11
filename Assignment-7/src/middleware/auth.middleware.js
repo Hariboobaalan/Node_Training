@@ -1,14 +1,14 @@
 require("dotenv").config();
 // importing the required modules
 const jwt = require("jsonwebtoken");
-const { debugLogger } = require("../utils/logger.util");
 const { MESSAGES, ERRORS } = require("../constants/messages.constants");
 const CODES = require("../constants/codes.constants");
 const createLog = require("../utils/createlog.util");
+const LOGGER = require("../utils/logger.util");
 
 // Authentication Middleware to authenticate the user to grant permission to perform CRUD operations on the tasks
 function auth(request, response, next) {
-  debugLogger.info("BEGIN: User Authentication");
+  LOGGER.debug("BEGIN: User Authentication");
   const jwtToken = request.header("x-auth-token");
   if (!jwtToken) {
     const responseObject = {
@@ -49,7 +49,7 @@ function auth(request, response, next) {
       data: MESSAGES.AUTHENTICATION_SUCCESS,
     };
     createLog(request, response, responseObject);
-    debugLogger.info("END: User Authentication");
+    LOGGER.debug("END: User Authentication");
     next();
   } catch (error) {
     let responseObject = {};

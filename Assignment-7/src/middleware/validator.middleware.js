@@ -30,7 +30,7 @@ const SCHEMA = {
       .optional(),
   }),
   userSchema: Joi.object({
-    username: Joi.string().max(30).required(),
+    username: Joi.string().trim().max(30).required(),
     password: Joi.string().min(8).max(30).required(),
   }),
 };
@@ -44,7 +44,6 @@ const validator = (schema) => {
       next();
     } else {
       const { details } = error;
-      const message = details.map((i) => i.message.replaceAll('"', "`"));
       res.status(400).json({ error: INVALID_PAYLOAD });
     }
   };

@@ -1,5 +1,6 @@
 /* Importing the loggers from utilities*/
-const { errorLogger, warningLogger, infoLogger } = require("./logger.util");
+// const { errorLogger, warningLogger, infoLogger } = require("./logger.util");
+const LOGGER = require("./logger.util");
 
 /**
  * The function creates logs based on the code range of the log object and sends them to different
@@ -13,13 +14,13 @@ const { errorLogger, warningLogger, infoLogger } = require("./logger.util");
 const createLogUtil = (logObject) => {
   switch (true) {
     case logObject.status >= 200 && logObject.status <= 299:
-      infoLogger.info(JSON.stringify(logObject));
+      LOGGER.info(JSON.stringify(logObject));
       break;
     case logObject.status >= 400 && logObject.status <= 499:
-      warningLogger.warn(JSON.stringify(logObject));
+      LOGGER.warn(JSON.stringify(logObject));
       break;
-    case logObject.status >= 500 && logObject.status <= 599:
-      errorLogger.error(JSON.stringify(logObject));
+    case logObject.status >= 500:
+      LOGGER.error(JSON.stringify(logObject));
       break;
     default:
   }

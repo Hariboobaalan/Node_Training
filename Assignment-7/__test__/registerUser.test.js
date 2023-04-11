@@ -10,7 +10,6 @@ describe("User Registration", () => {
       const { statusCode, body } = await supertest(app)
         .post("/users/register")
         .send(PAYLOAD.userPayload);
-      console.log("My Data is ", PAYLOAD.userPayload);
       expect(statusCode).toBe(CODES.OK);
       expect(body).toHaveProperty("token");
     });
