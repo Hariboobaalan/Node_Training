@@ -9,7 +9,7 @@ describe("Update Task", () => {
     it("must return No Task Found", async () => {
       const { statusCode, body } = await supertest(app)
         .put(`/tasks/${PAYLOAD.updateTaskPayloadInvalidID}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send(PAYLOAD.updateTaskPayloadValid);
       expect(statusCode).toBe(404);
@@ -20,7 +20,7 @@ describe("Update Task", () => {
     it("must update the task and return it", async () => {
       const { statusCode, body } = await supertest(app)
         .put(`/tasks/${PAYLOAD.updateTaskPayloadValidID}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send(PAYLOAD.updateTaskPayloadValid);
       expect(statusCode).toBe(CODES.OK);
@@ -31,7 +31,7 @@ describe("Update Task", () => {
     it("must return Invalid Payload Structure", async () => {
       const { statusCode, body } = await supertest(app)
         .put(`/tasks/${PAYLOAD.updateTaskPayloadValidID}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send(PAYLOAD.updateTaskPayloadInvalid);
       expect(statusCode).toBe(CODES.BAD_REQUEST);

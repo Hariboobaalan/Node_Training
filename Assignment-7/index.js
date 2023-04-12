@@ -5,19 +5,20 @@ const express = require("express");
 const cors = require("cors");
 /* Importing the filesystem module*/
 const fs = require("fs");
-/* Creating an instance of the express module. */
-const app = express();
-/* Fetching a constant port from enviroment file. */
-const PORT = process.env.PORT;
 const { MESSAGES, ERRORS } = require("./src/constants/messages.constants");
 const CODES = require("./src/constants/codes.constants");
 /* Importing write function to write the data to the database */
-const { write } = require("./src/utils/io.util");
+const { writeJSON } = require("./src/utils/io.util");
 /* Importing infoLogger to log information. */
 const LOGGER = require("./src/utils/logger.util");
 const auth = require("./src/middleware/auth.middleware");
 const tasksRoute = require("./src/routes/tasks.routes");
 const usersRoute = require("./src/routes/users.routes");
+/* Fetching a constant port from enviroment file. */
+const PORT = process.env.PORT;
+
+/* Creating an instance of the express module. */
+const app = express();
 
 /* This is a middleware that allows cross-origin requests to only http://localhost:4000 address. */
 app.use(
@@ -41,9 +42,7 @@ app.all("/", (request, response) => {
 });
 
 app.all(/^\/(.+)/, (request, response) => {
-  response
-    .status(CODES.INTERNAL_SERVER_ERROR)
-    .send({ error: ERRORS.INVALID_URL });
+  response.status(CODES.NOT_FOUND).send({ error: ERRORS.INVALID_URL });
 });
 
 /* This is a method that is used to start the server and listen at port 4000, also creates a new database during the start of the server.. */
@@ -52,10 +51,10 @@ app.listen(PORT, () => {
   const tasks = {};
   const users = [];
   if (!fs.existsSync(process.env.TASKS_DATABASE))
-    write(process.env.TASKS_DATABASE, tasks);
+    writeJSON(process.env.TASKS_DATABASE, tasks);
 
   if (!fs.existsSync(process.env.USERS_DATABASE))
-    write(process.env.USERS_DATABASE, users);
+    writeJSON(process.env.USERS_DATABASE, users);
 });
 
 module.exports = app;

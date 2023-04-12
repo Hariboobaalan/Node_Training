@@ -1,6 +1,6 @@
 require("dotenv").config();
 // Importing the required modules
-const { read, write } = require("../utils/io.util");
+const { readJSON, writeJSON } = require("../utils/io.util");
 const filterSortUtil = require("../utils/pageFilterSort.util");
 const CODES = require("../constants/codes.constants");
 const { MESSAGES } = require("../constants/messages.constants");
@@ -9,7 +9,8 @@ const TASKS_DATABASE_URL = process.env.TASKS_DATABASE_URL;
 // Service Function to check whether task already exists or not and add the task to taskList.
 // Else return Task ID already Exists
 const addTaskService = (username, data) => {
-  let tasks = read(TASKS_DATABASE_URL);
+  let tasks = readJSON(TASKS_DATABASE_URL);
+  
   if (tasks.status === CODES.INTERNAL_SERVER_ERROR) {
     return tasks;
   }
@@ -20,7 +21,7 @@ const addTaskService = (username, data) => {
       tasks.data[username].push(data);
     } else return { status: CODES.FORBIDDEN, data: MESSAGES.TASK_ID_EXISTS };
   }
-  let responseObject = write(TASKS_DATABASE_URL, tasks.data);
+  let responseObject = writeJSON(TASKS_DATABASE_URL, tasks.data);
 
   if (responseObject.status === CODES.OK)
     return { status: CODES.CREATED, data: MESSAGES.TASK_ADD_SUCCESS };
@@ -30,7 +31,7 @@ const addTaskService = (username, data) => {
 // Service Function to Read All the tasks in the tasklist of the requesting user
 // If No tasks are available, it returns No Tasks Found
 const readAllTasksService = (username, query) => {
-  let tasks = read(TASKS_DATABASE_URL);
+  let tasks = readJSON(TASKS_DATABASE_URL);
   let responseObject = filterSortUtil(tasks.data[username], query);
   if (responseObject.status === CODES.INTERNAL_SERVER_ERROR)
     return responseObject;
@@ -56,7 +57,7 @@ const readAllTasksService = (username, query) => {
 // Service Function to read the Task by ID specified by the requesting user.
 // If the specified task does not exists, it returns Task Not Found
 const readTaskService = (username, taskID) => {
-  let tasks = read(TASKS_DATABASE_URL);
+  let tasks = readJSON(TASKS_DATABASE_URL);
   if (tasks.status === CODES.INTERNAL_SERVER_ERROR) {
     return tasks;
   }
@@ -85,7 +86,7 @@ const readTaskService = (username, taskID) => {
 // Service Function to update the Task by ID specified by the requesting user.
 // If the specified task does not exists, it returns Task Not Found
 const updateTaskService = (username, taskID, newData) => {
-  let tasks = read(TASKS_DATABASE_URL);
+  let tasks = readJSON(TASKS_DATABASE_URL);
   if (tasks.status === CODES.INTERNAL_SERVER_ERROR) {
     return tasks;
   }
@@ -108,7 +109,7 @@ const updateTaskService = (username, taskID, newData) => {
       if (isModifiable === false) {
         return { status: CODES.FORBIDDEN, data: MESSAGES.UPDATE_FAIL };
       }
-      let responseObject = write(TASKS_DATABASE_URL, tasks.data);
+      let responseObject = writeJSON(TASKS_DATABASE_URL, tasks.data);
       if (responseObject.status === CODES.OK)
         return { status: CODES.OK, data: MESSAGES.UPDATE_SUCCESS };
       return responseObject;
@@ -120,7 +121,7 @@ const updateTaskService = (username, taskID, newData) => {
 // Service Function to delete the Task by ID specified by the requesting user.
 // If the specified task does not exists, it returns Task Not Found
 const deleteTaskService = (username, taskID) => {
-  let tasks = read(TASKS_DATABASE_URL);
+  let tasks = readJSON(TASKS_DATABASE_URL);
   if (tasks.status === CODES.INTERNAL_SERVER_ERROR) {
     return tasks;
   }
@@ -133,7 +134,7 @@ const deleteTaskService = (username, taskID) => {
 
     if (intialTasksLength !== userTasks.length) {
       tasks.data[username] = userTasks;
-      let responseObject = write(TASKS_DATABASE_URL, tasks.data);
+      let responseObject = writeJSON(TASKS_DATABASE_URL, tasks.data);
       if (responseObject.status === CODES.OK)
         return { status: CODES.OK, data: MESSAGES.DELETE_SUCCESS };
       return responseObject;

@@ -9,7 +9,7 @@ describe("Delete Task", () => {
     it("must update tasks and return success message", async () => {
       const { statusCode, body } = await supertest(app)
         .delete(`/tasks/${PAYLOAD.deleteTaskValidID}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send();
       expect(statusCode).toBe(CODES.OK);
@@ -20,7 +20,7 @@ describe("Delete Task", () => {
     it("must return No Task Found", async () => {
       const { statusCode, body } = await supertest(app)
         .delete(`/tasks/${PAYLOAD.deleteTaskInvalidID}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send();
       expect(statusCode).toBe(CODES.NOT_FOUND);

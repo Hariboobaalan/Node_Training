@@ -8,7 +8,7 @@ describe("Read Task by ID", () => {
     it("must return all tasks", async () => {
       const { statusCode, body } = await supertest(app)
         .get(`/tasks/`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send();
       expect(statusCode).toBe(CODES.OK);

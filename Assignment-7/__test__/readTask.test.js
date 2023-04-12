@@ -8,7 +8,7 @@ describe("Read Task by ID", () => {
     it("must return the task details", async () => {
       const { statusCode, body } = await supertest(app)
         .get(`/tasks/${PAYLOAD.readTaskIDExists}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send();
       expect(statusCode).toBe(CODES.OK);
@@ -18,7 +18,7 @@ describe("Read Task by ID", () => {
     it("must return No Task Found", async () => {
       const { statusCode, body } = await supertest(app)
         .get(`/tasks/${PAYLOAD.readTaskIDNotExists}`)
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send();
       expect(statusCode).toBe(CODES.NOT_FOUND);

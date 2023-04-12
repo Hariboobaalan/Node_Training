@@ -13,7 +13,7 @@ const { ERRORS, MESSAGES } = require("../constants/messages.constants");
  * or data related to the response, and the `error` property contains an error message or stack trace
  * if an error occurred during the execution of the function.
  */
-const write = (filePath, data) => {
+const writeJSON = (filePath, data) => {
   try {
     let content = JSON.stringify(data);
     try {
@@ -51,7 +51,7 @@ const write = (filePath, data) => {
  * `status` property set to `CODES.OK` and a `data` property set to the parsed JSON data. If there is
  * an error while parsing the data, it will return an object with a `status
  */
-const read = (filePath) => {
+const readJSON = (filePath) => {
   try {
     let data = fs.readFileSync(filePath, "utf-8");
     try {
@@ -59,7 +59,7 @@ const read = (filePath) => {
     } catch (error) {
       return {
         status: CODES.INTERNAL_SERVER_ERROR,
-        data: ERRORS.CURROPTED_DB,
+        data: ERRORS.CORRUPTED_DB,
         error: `${error.status || CODES.INTERNAL_SERVER_ERROR} | ${error} | ${
           error.stack
         }`,
@@ -76,4 +76,4 @@ const read = (filePath) => {
   }
 };
 
-module.exports = { read, write };
+module.exports = { readJSON, writeJSON };

@@ -9,7 +9,8 @@ describe("Add task", () => {
     it("must return tasks Added", async () => {
       const { statusCode, body } = await supertest(app)
         .post("/tasks/")
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
+
         .set({ username: PAYLOAD.userPayload.username })
         .send(PAYLOAD.task1);
       expect(statusCode).toBe(CODES.CREATED);
@@ -20,7 +21,7 @@ describe("Add task", () => {
     it("must return Invalid Payload Structure", async () => {
       const { statusCode, body } = await supertest(app)
         .post("/tasks/")
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send(PAYLOAD.taskInvalid);
       expect(statusCode).toBe(CODES.BAD_REQUEST);
@@ -31,7 +32,7 @@ describe("Add task", () => {
     it("must return no service", async () => {
       const { statusCode, body } = await supertest(app)
         .post("/tasks/random")
-        .set({ "x-auth-token": PAYLOAD.JWT_TOKEN })
+        .set({ Authorization: PAYLOAD.JWT_TOKEN })
         .set({ username: PAYLOAD.userPayload.username })
         .send(PAYLOAD.task1);
       expect(statusCode).toBe(CODES.NOT_FOUND);

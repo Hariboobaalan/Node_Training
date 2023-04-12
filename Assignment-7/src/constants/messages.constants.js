@@ -24,7 +24,7 @@ const ERRORS = {
   SYNTAX_ERROR: "Syntax Error",
   WRITE_ERROR: "Unable to Write to DB",
   INVALID_FORMAT: "Invalid Data Format",
-  CURROPTED_DB: "Database Curropted",
+  CORRUPTED_DB: "Database Corrupted",
   DATA_NOT_FOUND: "Data Not Found",
   DATABASE_NOT_FOUND: "Database Not Found",
   INVALID_URL: "Invalid URL, Cannot Process Request",
@@ -37,4 +37,29 @@ const ERRORS = {
   INVALID_ACCESS_TOKEN: "Invalid Access Token",
   LOGIN_FAILED: "Login Failed. Incorrect Username / Password",
 };
-module.exports = { MESSAGES, ERRORS };
+
+const MY_CODES = {
+  JSON_WRITE_SUCCESS: "JW_001",
+  JSON_WRITE_ERROR: "JW_E_001",
+  JSON_READ_SUCCESS: "JR_001",
+  JSON_READ_ERROR: "JR_E_001",
+  INVALID_FORMAT: "INV_F_001",
+  DB_NOT_FOUND: "DB_E_001",
+  CURROPTED_DB: "CR_DB_E_001",
+  TASK_EXISTS: "TSK_EXIST_E_001",
+  TASK_ADD_SUCCESS: "TSK_ADD_001"
+};
+
+const MY_MESSAGES = {
+  JW_001: "Data Successfully Written to Database",
+  JW_E_001: "Unable to Write to DB",
+  JR_001: "Data Successfully Read from Database",
+  JR_E_001: "Unable to Read from DB",
+  INV_F_001: "Invalid Data Format",
+  DB_NOT_FOUND: "Database not Found",
+  CR_DB_E_001: "Database Corrupted",
+  TSK_EXIST_E_001:"Task Already Exists",
+  TSK_ADD_001:"Task Added Successfully"
+};
+
+module.exports = { MESSAGES, ERRORS, MY_CODES, MY_MESSAGES };

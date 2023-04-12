@@ -8,4 +8,5 @@ const CODES = {
   FORBIDDEN: 403,
   INTERNAL_SERVER_ERROR: 500,
 };
+
 module.exports = CODES;

@@ -9,7 +9,7 @@ const LOGGER = require("../utils/logger.util");
 // Authentication Middleware to authenticate the user to grant permission to perform CRUD operations on the tasks
 function auth(request, response, next) {
   LOGGER.debug("BEGIN: User Authentication");
-  const jwtToken = request.header("x-auth-token");
+  const jwtToken = request.header("Authorization");
   if (!jwtToken) {
     const responseObject = {
       status: CODES.UNAUTHORIZED,
@@ -32,7 +32,10 @@ function auth(request, response, next) {
       .send({ message: responseObject.data });
   }
   try {
-    const user = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
+    const user = jwt.verify(
+      jwtToken.split(" ")[1].trim(),
+      process.env.JWT_SECRET_KEY
+    );
     request.user = user.username;
     if (request.user !== username) {
       const responseObject = {
