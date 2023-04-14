@@ -17,6 +17,7 @@ const MESSAGES = {
   TASK_ADD_SUCCESS: "Task Added Successfully",
   TASK_NOT_FOUND: "Task Not Found",
   UPDATE_FAIL: "Can't Update Some Data",
+  NO_TASKS: "No Tasks Found",
 };
 
 /* A JSON Object to store set of ERROR related Messages */
@@ -47,7 +48,7 @@ const MY_CODES = {
   DB_NOT_FOUND: "DB_E_001",
   CURROPTED_DB: "CR_DB_E_001",
   TASK_EXISTS: "TSK_EXIST_E_001",
-  TASK_ADD_SUCCESS: "TSK_ADD_001"
+  TASK_ADD_SUCCESS: "TSK_ADD_001",
 };
 
 const MY_MESSAGES = {
@@ -58,8 +59,8 @@ const MY_MESSAGES = {
   INV_F_001: "Invalid Data Format",
   DB_NOT_FOUND: "Database not Found",
   CR_DB_E_001: "Database Corrupted",
-  TSK_EXIST_E_001:"Task Already Exists",
-  TSK_ADD_001:"Task Added Successfully"
+  TSK_EXIST_E_001: "Task Already Exists",
+  TSK_ADD_001: "Task Added Successfully",
 };
 
 module.exports = { MESSAGES, ERRORS, MY_CODES, MY_MESSAGES };

@@ -1,5 +1,5 @@
 // Importing the required modules and utility functions
-const JWT_SIGN = require("../utils/jwt.util");
+const { JWT_SIGN } = require("../utils/jwt.util");
 const { readJSON, writeJSON } = require("../utils/io.util");
 const { encrypt, decrypt } = require("../utils/cryption.util");
 const CODES = require("../constants/codes.constants");
@@ -18,7 +18,7 @@ const registerUserService = (username, password) => {
     let result = writeJSON(process.env.USERS_DATABASE_URL, usersDB.data);
     if (result.status === CODES.OK) {
       const jwtToken = JWT_SIGN(username);
-      return { status: CODES.OK, token: `Bearer ${jwtToken}` };
+      return { status: CODES.OK, token: `${jwtToken}` };
     }
     return result;
   }
@@ -39,7 +39,7 @@ const loginUserService = (username, password) => {
     return { status: CODES.FORBIDDEN, data: MESSAGES.INVALID_PASSWORD };
   }
   const jwtToken = JWT_SIGN(username);
-  return { status: CODES.OK, token: `Bearer ${jwtToken}` };
+  return { status: CODES.OK, token: `${jwtToken}` };
 };
 
 module.exports = { registerUserService, loginUserService };

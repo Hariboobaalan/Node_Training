@@ -10,7 +10,7 @@ const TASKS_DATABASE_URL = process.env.TASKS_DATABASE_URL;
 // Else return Task ID already Exists
 const addTaskService = (username, data) => {
   let tasks = readJSON(TASKS_DATABASE_URL);
-  
+
   if (tasks.status === CODES.INTERNAL_SERVER_ERROR) {
     return tasks;
   }
@@ -35,21 +35,8 @@ const readAllTasksService = (username, query) => {
   let responseObject = filterSortUtil(tasks.data[username], query);
   if (responseObject.status === CODES.INTERNAL_SERVER_ERROR)
     return responseObject;
-  if (
-    responseObject.status != CODES.NOT_FOUND &&
-    responseObject.data.length != 0
-  ) {
-    responseObject.data.map((task) => {
-      task.taskComments.map((comment) => {
-        comment.timestamp = new Date(
-          Number(comment.timestamp)
-        ).toLocaleDateString("en-US", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        });
-      });
-    });
+  if (responseObject.data === undefined) {
+    return { status: CODES.NOT_FOUND, data: MESSAGES.NO_TASKS };
   }
   return { status: responseObject.status, data: responseObject.data };
 };
@@ -69,17 +56,6 @@ const readTaskService = (username, taskID) => {
     [];
   if (task.length === 0)
     return { status: CODES.NOT_FOUND, data: MESSAGES.TASK_NOT_FOUND };
-  if (task.taskComments.length != 0) {
-    task.taskComments.map((comment) => {
-      comment.timestamp = new Date(
-        Number(comment.timestamp)
-      ).toLocaleDateString("en-US", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      });
-    });
-  }
   return { status: CODES.OK, data: task };
 };
 
@@ -94,20 +70,9 @@ const updateTaskService = (username, taskID, newData) => {
     let taskIndex = tasks.data[username].findIndex(
       (task) => Number(task.taskID) === Number(taskID)
     );
-
     if (taskIndex != -1) {
-      let isModifiable = true;
-      const shouldNotModify = ["taskID"];
       for (let key in Object(newData)) {
-        if (shouldNotModify.includes(key)) {
-          isModifiable = false;
-          break;
-        } else {
-          tasks.data[username][taskIndex][key] = newData[key];
-        }
-      }
-      if (isModifiable === false) {
-        return { status: CODES.FORBIDDEN, data: MESSAGES.UPDATE_FAIL };
+        tasks.data[username][taskIndex][key] = newData[key];
       }
       let responseObject = writeJSON(TASKS_DATABASE_URL, tasks.data);
       if (responseObject.status === CODES.OK)
@@ -139,8 +104,8 @@ const deleteTaskService = (username, taskID) => {
         return { status: CODES.OK, data: MESSAGES.DELETE_SUCCESS };
       return responseObject;
     }
-    return { status: CODES.NOT_FOUND, data: MESSAGES.TASK_NOT_FOUND };
   }
+  return { status: CODES.NOT_FOUND, data: MESSAGES.TASK_NOT_FOUND };
 };
 
 module.exports = {

@@ -1,4 +1,4 @@
-const { ERRORS } = require("../constants/messages.constants");
+const { ERRORS, MESSAGES } = require("../constants/messages.constants");
 const CODES = require("../constants/codes.constants");
 
 // Utility Helper Function to perform Paging, Filtering, Sorting
@@ -84,13 +84,13 @@ const pageFilterSort = (data, queries) => {
       result = pageFilterSortUtil[query](result, JSON.parse(queries[query]));
     } catch (error) {
       return {
-        status: CODES.INTERNAL_SERVER_ERROR,
-        data: ERRORS.SYNTAX_ERROR,
+        status: CODES.NOT_FOUND,
+        data: MESSAGES.NO_TASKS,
         error: error.stack,
       };
     }
   }
-  if (result.length === 0)
+  if (result?.length === 0)
     return { status: CODES.NOT_FOUND, data: ERRORS.DATA_NOT_FOUND };
   return { status: CODES.OK, data: result };
 };

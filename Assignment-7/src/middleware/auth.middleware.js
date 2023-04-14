@@ -5,6 +5,7 @@ const { MESSAGES, ERRORS } = require("../constants/messages.constants");
 const CODES = require("../constants/codes.constants");
 const createLog = require("../utils/createlog.util");
 const LOGGER = require("../utils/logger.util");
+const { JWT_VERIFY } = require("../utils/jwt.util");
 
 // Authentication Middleware to authenticate the user to grant permission to perform CRUD operations on the tasks
 function auth(request, response, next) {
@@ -32,10 +33,7 @@ function auth(request, response, next) {
       .send({ message: responseObject.data });
   }
   try {
-    const user = jwt.verify(
-      jwtToken.split(" ")[1].trim(),
-      process.env.JWT_SECRET_KEY
-    );
+    const user = JWT_VERIFY(jwtToken.trim());
     request.user = user.username;
     if (request.user !== username) {
       const responseObject = {
